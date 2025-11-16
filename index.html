@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件下载中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        header p {
+            color: #5a6c7d;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 2px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .file-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .file-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .file-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            color: white;
+            min-width: 80px;
+        }
+
+        .download-btn i {
+            margin-right: 5px;
+        }
+
+        .quark-btn {
+            background: #ff6b6b;
+        }
+
+        .quark-btn:hover {
+            background: #ff5252;
+        }
+
+        .baidu-btn {
+            background: #4285f4;
+        }
+
+        .baidu-btn:hover {
+            background: #3367d6;
+        }
+
+        .lanzou-btn {
+            background: #00b894;
+        }
+
+        .lanzou-btn:hover {
+            background: #00a085;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #5a6c8d;
+        }
+
+        @media (max-width: 768px) {
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .download-buttons {
+                width: 100%;
+            }
+            
+            .download-btn {
+                flex: 1;
+                text-align: center;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-download"></i> 文件下载中心</h1>
+            <p>选择文件并使用您偏好的网盘下载</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchInput" placeholder="搜索文件...">
+        </div>
+
+        <div class="file-list" id="fileList">
+            <!-- 文件1 -->
+            <div class="file-item" data-name="项目文档.pdf">
+                <div class="file-name">项目文档.pdf</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/项目文档" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/项目文档" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/项目文档" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件2 -->
+            <div class="file-item" data-name="演示文稿.pptx">
+                <div class="file-name">演示文稿.pptx</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/演示文稿" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/演示文稿" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/演示文稿" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件3 -->
+            <div class="file-item" data-name="产品图片集.zip">
+                <div class="file-name">产品图片集.zip</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/产品图片集" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/产品图片集" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/产品图片集" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件4 -->
+            <div class="file-item" data-name="项目源码.tar.gz">
+                <div class="file-name">项目源码.tar.gz</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/项目源码" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/项目源码" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/项目源码" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件5 -->
+            <div class="file-item" data-name="宣传视频.mp4">
+                <div class="file-name">宣传视频.mp4</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/宣传视频" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/宣传视频" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/宣传视频" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件6 -->
+            <div class="file-item" data-name="背景音乐.mp3">
+                <div class="file-name">背景音乐.mp3</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/背景音乐" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/背景音乐" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/背景音乐" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件7 -->
+            <div class="file-item" data-name="设计素材.psd">
+                <div class="file-name">设计素材.psd</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/设计素材" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/设计素材" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/设计素材" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+
+            <!-- 文件8 -->
+            <div class="file-item" data-name="用户手册.docx">
+                <div class="file-name">用户手册.docx</div>
+                <div class="download-buttons">
+                    <a href="https://pan.quark.cn/s/用户手册" class="download-btn quark-btn" target="_blank">
+                        <i class="fas fa-bolt"></i> 夸克
+                    </a>
+                    <a href="https://pan.baidu.com/s/用户手册" class="download-btn baidu-btn" target="_blank">
+                        <i class="fas fa-cloud"></i> 百度
+                    </a>
+                    <a href="https://www.lanzou.com/用户手册" class="download-btn lanzou-btn" target="_blank">
+                        <i class="fas fa-shield-alt"></i> 蓝奏云
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 文件下载中心</p>
+        </footer>
+    </div>
+
+    <script>
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const fileItems = document.querySelectorAll('.file-item');
+            let hasResults = false;
+            
+            fileItems.forEach(item => {
+                const fileName = item.getAttribute('data-name').toLowerCase();
+                if (fileName.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // 如果没有搜索结果，显示提示
+            const fileList = document.getElementById('fileList');
+            let noResultsMsg = fileList.querySelector('.no-results');
+            
+            if (!hasResults) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results';
+                    noResultsMsg.textContent = '未找到匹配的文件';
+                    fileList.appendChild(noResultsMsg);
+                }
+            } else if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
+        });
+    </script>
+</body>
+</html>
